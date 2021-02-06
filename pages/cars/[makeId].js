@@ -3,24 +3,24 @@ import Head from 'next/head'  // <-- for SEO
 
 export default function Car({ car }) {  // <-- 'car' prop received from getStaticProps
   const router = useRouter()
-  const { id } = router.query
+  const { makeId } = router.query
 
   return ( 
     <>
       <Head>
-        <title>{car.color} {car.id} </title>
+        <title>{car.color} {car.makeId} </title>
       </Head>
 
-      <h1>Hello {id}</h1>
+      <h1>Hello {makeId}</h1>
       <img src={car.image} width="300px"/>
     </>
   )
 }
 
-export async function getStaticProps({ params }) {  // <-- id of car from the Query params [id], ie: "ford"
+export async function getStaticProps({ params }) {  // <-- params is the makeId of car from the Query params [makeId], ie: "ford"
   console.log({params})
   
-  const req = await fetch(`http://localhost:3000/${params.id}.json`)
+  const req = await fetch(`http://localhost:3000/${params.makeId}.json`)
   const data = await req.json()
 
   console.log({data})
@@ -30,13 +30,13 @@ export async function getStaticProps({ params }) {  // <-- id of car from the Qu
   }
 }
 
-export async function getStaticPaths() {  // <-- gets all the routes
+export async function getStaticPaths() {  // <-- gets all the makeId routes, ie: ["ford", "tesla", "lambo"]
 
     const req = await fetch('http://localhost:3000/cars.json');
     const data = await req.json();
 
     const paths = data.map(car => {
-        return { params: { id: car } }
+        return { params: { makeId: car } }
     })
 
     return {
