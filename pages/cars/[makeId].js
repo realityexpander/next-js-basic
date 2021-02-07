@@ -17,7 +17,7 @@ export default function Car({ car }) {  // <-- 'car' prop received from getStati
   )
 }
 
-export async function getStaticProps({ params }) {  // <-- params is the makeId of car from the Query params [makeId], ie: "ford"
+export async function getServerSideProps({ params }) {
   console.log({params})
   
   const req = await fetch(`http://localhost:3000/${params.makeId}.json`)
@@ -30,17 +30,33 @@ export async function getStaticProps({ params }) {  // <-- params is the makeId 
   }
 }
 
-export async function getStaticPaths() {  // <-- gets all the makeId routes, ie: ["ford", "tesla", "lambo"]
 
-    const req = await fetch('http://localhost:3000/cars.json');
-    const data = await req.json();
+// server side static props (must include getStaticProps and getStaticPaths)
 
-    const paths = data.map(car => {
-        return { params: { makeId: car } }
-    })
+// export async function getStaticProps({ params }) {  // <-- params is the makeId of car from the Query params [makeId], ie: "ford"
+//   console.log({params})
+  
+//   const req = await fetch(`http://localhost:3000/${params.makeId}.json`)
+//   const data = await req.json()
 
-    return {
-        paths,
-        fallback: false
-    };
-}
+//   console.log({data})
+
+//   return {
+//     props: { car: data },  // <-- 'car' data prop returned here
+//   }
+// }
+
+// export async function getStaticPaths() {  // <-- gets all the makeId routes, ie: ["ford", "tesla", "lambo"]
+
+//     const req = await fetch('http://localhost:3000/cars.json');
+//     const data = await req.json();
+
+//     const paths = data.map(car => {
+//         return { params: { makeId: car } }
+//     })
+
+//     return {
+//         paths,
+//         fallback: false
+//     };
+// }
